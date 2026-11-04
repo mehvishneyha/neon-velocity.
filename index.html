@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#080d1a" />
+  <meta name="description" content="Neon Velocity: Street Legends — a playable arcade street racing game for desktop and mobile." />
+  <title>NEON VELOCITY — Street Legends</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="game" aria-label="Neon Velocity racing game"></canvas>
+    <div id="vignette"></div>
+    <div id="grain"></div>
+
+    <div class="topbar">
+      <a class="brand" href="#" aria-label="Neon Velocity home"><span class="brand-mark">N<span>V</span></span><span class="brand-word">NEON <em>VELOCITY</em><small>STREET LEGENDS</small></span></a>
+      <div class="top-actions">
+        <span class="sound-caption">NIGHT RUN // 01</span>
+        <button id="soundBtn" class="icon-button" aria-label="Toggle sound" title="Sound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15 9a4 4 0 0 1 0 6M18 6a8 8 0 0 1 0 12"/></svg></button>
+        <button id="pauseBtn" class="icon-button hidden" aria-label="Pause game" title="Pause / Esc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 5v14M16 5v14"/></svg></button>
+      </div>
+    </div>
+
+    <section id="menu" class="menu-overlay">
+      <div class="menu-content">
+        <div class="eyebrow"><span class="eyebrow-line"></span> AFTER DARK / CITY CIRCUIT <span class="eyebrow-no">001—003</span></div>
+        <h1>OWN THE<br/><span>STREETS.</span></h1>
+        <p class="menu-tagline">NO LIMITS. NO BRAKES. JUST THE NEXT CORNER.</p>
+        <p class="menu-description">Race through a neon-soaked city against seven ruthless rivals. Thread the traffic, nail the corners, and hit the nitrous when it counts.</p>
+        <button id="startBtn" class="primary-button"><span>START YOUR ENGINE</span><span class="button-arrow">↗</span></button>
+        <div class="menu-meta"><span><i></i> 3 LAP STREET RACE</span><span><i></i> 8 DRIVERS</span><span><i></i> NIGHT CITY</span></div>
+      </div>
+      <div class="menu-side">
+        <div class="issue">EST. 20XX <span>///</span> STREET DIVISION</div>
+        <div class="big-vertical">BUILT FOR THE NIGHT</div>
+      </div>
+      <div class="menu-footer"><span>01 / ARCADE RACING</span><span>DESKTOP + MOBILE READY</span></div>
+    </section>
+
+    <section id="hud" class="hud hidden" aria-live="off">
+      <div class="race-info"><span class="hud-label">POSITION</span><div class="position"><span id="positionVal">08</span><small>/ 08</small></div><div class="lap-info">LAP <b id="lapVal">1</b><span>/ 3</span></div></div>
+      <div class="hud-top-center"><div id="raceBanner" class="race-banner">MIDNIGHT RUN</div><div class="time" id="timeVal">00:00.00</div></div>
+      <div class="right-hud"><span class="hud-label">BEST LAP</span><span id="bestLapVal">--:--.--</span><div class="mini-progress"><div id="trackProgress"></div></div></div>
+      <div class="speed-card"><div class="speedline"></div><div class="speed-main"><span id="speedVal">0</span><small>KM/H</small></div><div class="gear-indicator">GEAR <b id="gearVal">1</b></div><div class="nitro-header"><span>NITROUS</span><b id="nitroVal">100%</b></div><div class="nitro-bar"><div id="nitroFill"></div></div></div>
+      <div id="driftNotice" class="drift-notice"></div>
+      <div id="toast" class="toast"></div>
+      <div id="countdown" class="countdown hidden">3</div>
+    </section>
+
+    <div id="mobileControls" class="mobile-controls hidden" aria-label="Touch driving controls">
+      <div class="control-left"><button class="touch-btn turn" data-key="left" aria-label="Steer left">◀</button><button class="touch-btn turn" data-key="right" aria-label="Steer right">▶</button></div>
+      <div class="control-right"><button class="touch-btn drift" data-key="drift" aria-label="Drift">DRIFT</button><button class="touch-btn nitro" data-key="nitro" aria-label="Nitro">N₂O</button><button class="touch-btn brake" data-key="brake" aria-label="Brake">BRAKE</button><button class="touch-btn gas" data-key="gas" aria-label="Accelerate">GO</button></div>
+    </div>
+
+    <section id="pauseScreen" class="modal-overlay hidden"><div class="modal-panel"><div class="eyebrow">TAKE A BREATHER</div><h2>PAUSED<span>.</span></h2><p>The streets aren't going anywhere.</p><button id="resumeBtn" class="primary-button"><span>RESUME RACE</span><span class="button-arrow">↗</span></button><button id="restartPauseBtn" class="secondary-button">RESTART RACE</button><button id="homePauseBtn" class="secondary-button">MAIN MENU</button><p class="controls-hint">W / ↑ accelerate &nbsp; A D / ← → steer<br/>S / ↓ brake &nbsp; SHIFT nitro &nbsp; SPACE drift</p></div></section>
+    <section id="resultsScreen" class="modal-overlay hidden"><div class="modal-panel results-panel"><div id="resultEyebrow" class="eyebrow">RACE COMPLETE</div><h2 id="resultTitle">RACE<span> OVER.</span></h2><div class="result-place" id="resultPlace">1ST</div><div class="result-stats"><div><small>TOTAL TIME</small><b id="resultTime">00:00.00</b></div><div><small>BEST LAP</small><b id="resultLap">00:00.00</b></div></div><button id="restartBtn" class="primary-button"><span>RACE AGAIN</span><span class="button-arrow">↗</span></button><button id="homeBtn" class="secondary-button">MAIN MENU</button></div></section>
+
+    <div id="loading" class="loading"><span class="loading-logo">NV<span>.</span></span><span>PREPARING THE STREETS</span></div>
+  </div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
